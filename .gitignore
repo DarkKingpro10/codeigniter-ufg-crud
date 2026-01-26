@@ -1,0 +1,7 @@
+# Ignorar archivos de debug generados por CodeIgniter Debug Toolbar
+writable/debugbar/
+
+# Ignorar otros ficheros temporales de writable
+writable/cache/
+writable/logs/
+writable/session/
