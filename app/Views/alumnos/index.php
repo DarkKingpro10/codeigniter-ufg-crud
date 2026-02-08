@@ -35,7 +35,15 @@
                         <td><?= esc($alumno['apellido']) ?></td>
                         <td><?= esc($alumno['telefono']) ?></td>
                         <td class="align-bottom">
-                            <a href="<?= base_url('alumnos/edit/' . $alumno['id']) ?>" class="btn btn-sm btn-secondary">Editar</a>
+                            <a href="<?= base_url('alumnos/edit/' . $alumno['id']) ?>" class="btn btn-sm btn-secondary" data-bs-container="body" data-bs-toggle="popover" data-bs-placement="auto" data-bs-trigger="hover focus" data-bs-content="Editar alumno">
+                                <i class="bi bi-pencil"></i>
+                            </a>
+                            <button class="btn btn-danger btn-sm"
+                                onclick="eliminarAlumno(<?= $alumno['id'] ?>)"
+                                data-bs-container="body" data-bs-toggle="popover" data-bs-placement="auto" data-bs-trigger="hover focus" data-bs-content="Eliminar alumno">
+                                <i class="bi bi-trash"></i>
+                            </button>
+
                         </td>
                     </tr>
                 <?php endforeach; ?>
@@ -52,8 +60,33 @@
 <script src="https://cdn.datatables.net/responsive/3.0.8/js/responsive.bootstrap5.js" integrity="sha384-hyp/YDWGBMFqg7pJuS+y+2VWJkwnOyX+oMN9fWcxINo2flqjC/SdNaHj8LIV4zKJ" crossorigin="anonymous"></script>
 
 <script>
-    let table = new DataTable('#alumnos_table',{
-        responsive: true
-    })
+    document.addEventListener('DOMContentLoaded', function() {
+        let table = new DataTable('#alumnos_table', {
+            responsive: true
+        })
+
+        const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
+        const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl))
+    });
+
+    function eliminarAlumno(id) {
+        if (confirm('¿Seguro que deseas eliminar este alumno?')) {
+
+            fetch(`<?= base_url('alumnos/delete') ?>/${id}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    alert('Alumno eliminado correctamente');
+                    location.reload();
+                })
+                .catch(error => {
+                    alert('Error al eliminar el alumno');
+                });
+        }
+    }
 </script>
 <?= $this->endSection() ?>

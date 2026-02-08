@@ -2,19 +2,20 @@
 
 /** Layout principal con Bootstrap */ ?>
 <!doctype html>
-<html lang="es">
+<html lang="es" data-bs-theme="light">
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
     <title><?= isset($title) ? esc($title) : 'Prueba CRUD' ?></title>
     <?= $this->renderSection('styles') ?>
 </head>
 
 <body>
     <header>
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <nav class="navbar navbar-expand-lg">
             <div class="container">
                 <a class="navbar-brand" href="#">CRUD - CodeIgniter</a>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">

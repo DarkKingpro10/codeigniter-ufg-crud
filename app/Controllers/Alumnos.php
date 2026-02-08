@@ -13,7 +13,7 @@ class Alumnos extends BaseController
     {
         $this->alumnoModel = new AlumnoModel();
     }
-    
+
     public function index()
     {
         // $alumnoModel = new AlumnoModel();
@@ -29,23 +29,28 @@ class Alumnos extends BaseController
 
     public function create()
     {
-        // $alumnoModel = new AlumnoModel();
         $this->alumnoModel->insert($this->request->getPost());
         return redirect()->to('alumnos');
     }
 
     public function renderEdit($id)
     {
-        // $alumnoModel = new AlumnoModel();
         $data['alumno'] = $this->alumnoModel->find($id);
         return view('alumnos/edit', $data);
     }
 
     public function edit($id)
     {
-        // $alumnoModel = new AlumnoModel();
         $data['alumno'] = $this->alumnoModel->find($id);
         $this->alumnoModel->update($id, $this->request->getPost());
         return redirect()->to('alumnos');
+    }
+
+    public function delete($id)
+    {
+        $this->alumnoModel->delete($id);
+        return $this->response->setJSON([
+            'status' => 'ok'
+        ]);
     }
 }
