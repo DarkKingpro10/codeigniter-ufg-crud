@@ -18,6 +18,6 @@
     <div class="col-12 mt-3">
         <button type="submit" class="btn btn-success">Guardar</button>
         <a href="<?= base_url('alumnos') ?>" class="btn btn-secondary ms-2">Cancelar</a>
-    </div>
+    </div>  
 </form>
 <?= $this->endSection() ?>
