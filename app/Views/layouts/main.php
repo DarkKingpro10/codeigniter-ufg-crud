@@ -15,7 +15,7 @@
 
 <body>
     <header>
-        <nav class="navbar navbar-expand-lg">
+        <!-- <nav class="navbar navbar-expand-lg">
             <div class="container">
                 <a class="navbar-brand" href="#">CRUD - CodeIgniter</a>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -33,7 +33,7 @@
                     </ul>
                 </div>
             </div>
-        </nav>
+        </nav> -->
     </header>
     <main class="container mt-4">
         <?= $this->renderSection('content') ?>

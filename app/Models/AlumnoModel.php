@@ -8,6 +8,6 @@ class AlumnoModel extends Model
 {
     protected $table = 'alumnos';
     protected $primaryKey = 'id';
-    protected $allowedFields = ['nombre', 'apellido', 'email', 'telefono'];
+    protected $allowedFields = ['nombre', 'apellido', 'email', 'telefono', 'codigo'];
 }
 ?>

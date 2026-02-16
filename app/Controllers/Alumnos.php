@@ -29,8 +29,25 @@ class Alumnos extends BaseController
 
     public function create()
     {
-        $this->alumnoModel->insert($this->request->getPost());
-        return redirect()->to('alumnos');
+        $post = $this->request->getPost();
+        $codigo = isset($post['codigo']) ? trim($post['codigo']) : null;
+
+        if (empty($codigo)) {
+            return redirect()->back()->withInput()->with('error', 'El código es obligatorio.');
+        }
+
+        $existing = $this->alumnoModel->where('codigo', $codigo)->first();
+        if ($existing) {
+            return redirect()->back()->withInput()->with('error', 'Ya existe un alumno con ese código.');
+        }
+
+        try {
+            $this->alumnoModel->insert($post);
+            return redirect()->to('alumnos')->with('success', 'Alumno creado correctamente.');
+        } catch (\Exception $e) {
+            log_message('error', $e->getMessage());
+            return redirect()->back()->withInput()->with('error', 'Ocurrió un error al guardar el alumno.');
+        }
     }
 
     public function renderEdit($id)
@@ -42,8 +59,25 @@ class Alumnos extends BaseController
     public function edit($id)
     {
         $data['alumno'] = $this->alumnoModel->find($id);
-        $this->alumnoModel->update($id, $this->request->getPost());
-        return redirect()->to('alumnos');
+        $post = $this->request->getPost();
+        $codigo = isset($post['codigo']) ? trim($post['codigo']) : null;
+
+        if (empty($codigo)) {
+            return redirect()->back()->withInput()->with('error', 'El código es obligatorio.');
+        }
+
+        $existing = $this->alumnoModel->where('codigo', $codigo)->first();
+        if ($existing && $existing['id'] != $id) {
+            return redirect()->back()->withInput()->with('error', 'Ya existe un alumno con ese código.');
+        }
+
+        try {
+            $this->alumnoModel->update($id, $post);
+            return redirect()->to('alumnos')->with('success', 'Alumno actualizado correctamente.');
+        } catch (\Exception $e) {
+            log_message('error', $e->getMessage());
+            return redirect()->back()->withInput()->with('error', 'Ocurrió un error al actualizar el alumno.');
+        }
     }
 
     public function delete($id)

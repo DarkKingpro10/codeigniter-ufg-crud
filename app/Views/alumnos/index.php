@@ -10,12 +10,15 @@
     <h1 class="h3">Alumnos</h1>
     <a href="<?= base_url('alumnos/create') ?>" class="btn btn-primary">Crear alumno</a>
 </div>
-
+<?php if (session()->getFlashdata('success')): ?>
+    <div class="alert alert-success"><?= esc(session()->getFlashdata('success')) ?></div>
+<?php endif; ?>
 <div class="table-responsive">
     <table id="alumnos_table" class="table table-striped table-bordered align-middle text-center">
         <thead class="table-light">
             <tr>
                 <th>ID</th>
+                <th>Código</th>
                 <th>Nombre</th>
                 <th>Apellido</th>
                 <th>Teléfono</th>
@@ -31,6 +34,7 @@
                 <?php foreach ($alumnos as $alumno): ?>
                     <tr>
                         <td><?= esc($alumno['id']) ?></td>
+                        <td><?= esc($alumno['codigo']) ?></td>
                         <td><?= esc($alumno['nombre']) ?></td>
                         <td><?= esc($alumno['apellido']) ?></td>
                         <td><?= esc($alumno['telefono']) ?></td>
@@ -79,13 +83,12 @@
                     }
                 })
                 .then(response => response.json())
+                .then(response => response.json())
                 .then(data => {
-                    alert('Alumno eliminado correctamente');
                     location.reload();
                 })
                 .catch(error => {
-                    alert('Error al eliminar el alumno');
-                });
+                    location.reload();                });
         }
     }
 </script>
