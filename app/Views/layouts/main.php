@@ -15,17 +15,24 @@
 
 <body>
     <header>
-        <!-- <nav class="navbar navbar-expand-lg">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container">
                 <a class="navbar-brand" href="#">CRUD - CodeIgniter</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <?php
                         $currentUri = uri_string();
                         $isAlumnosList = ($currentUri === 'alumnos' || $currentUri === 'public/alumnos' || rtrim($currentUri, '/') === 'alumnos');
+                        $isAlumnosCarrera = ($currentUri === 'alumnos_carrera' || $currentUri === 'public/alumnos_carrera' || rtrim($currentUri, '/') === 'alumnos_carrera');
                         ?>
                         <li class="nav-item">
                             <a class="nav-link <?= $isAlumnosList ? 'active' : '' ?>" href="<?= base_url('alumnos') ?>">Listado de alumnos</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link <?= $isAlumnosCarrera ? 'active' : '' ?>" href="<?= base_url('alumnos_carrera') ?>">Alumnos por carrera</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link <?= ($currentUri === 'alumnos/create' || $currentUri === 'public/alumnos/create') ? 'active' : '' ?>" href="<?= base_url('alumnos/create') ?>">Crear alumno</a>
@@ -33,7 +40,7 @@
                     </ul>
                 </div>
             </div>
-        </nav> -->
+        </nav>
     </header>
     <main class="container mt-4">
         <?= $this->renderSection('content') ?>

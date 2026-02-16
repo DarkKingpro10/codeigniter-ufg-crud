@@ -14,3 +14,5 @@ $routes->post('alumnos/create', 'Alumnos::create');
 $routes->get('alumnos/edit/(:num)', 'Alumnos::renderEdit/$1');
 $routes->post('alumnos/edit/(:num)', 'Alumnos::edit/$1');
 $routes->delete('alumnos/delete/(:num)', 'Alumnos::delete/$1');
+$routes->get('alumnos_carrera', 'Alumnoscarrera::index');
+$routes->post('alumnos_carrera/filtrar', 'Alumnoscarrera::filtrar');
