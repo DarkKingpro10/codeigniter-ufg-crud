@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\AlumnoModel;
+use App\Models\CarreraModel;
 
 class Alumnos extends BaseController
 {
@@ -24,16 +25,25 @@ class Alumnos extends BaseController
 
     public function renderCreate()
     {
-        return view('alumnos/create');
+        $carreraModel = new CarreraModel();
+
+        return view('alumnos/create', [
+            'carreras' => $carreraModel->orderBy('nombre_carrera', 'ASC')->findAll(),
+        ]);
     }
 
     public function create()
     {
         $post = $this->request->getPost();
         $codigo = isset($post['codigo']) ? trim($post['codigo']) : null;
+        $codigoCarrera = isset($post['codigo_carrera']) ? trim((string) $post['codigo_carrera']) : null;
 
         if (empty($codigo)) {
             return redirect()->back()->withInput()->with('error', 'El código es obligatorio.');
+        }
+
+        if (empty($codigoCarrera) || ! ctype_digit((string) $codigoCarrera) || (int) $codigoCarrera <= 0) {
+            return redirect()->back()->withInput()->with('error', 'Debes seleccionar una carrera válida.');
         }
 
         $existing = $this->alumnoModel->where('codigo', $codigo)->first();
@@ -52,8 +62,12 @@ class Alumnos extends BaseController
 
     public function renderEdit($id)
     {
-        $data['alumno'] = $this->alumnoModel->find($id);
-        return view('alumnos/edit', $data);
+        $carreraModel = new CarreraModel();
+
+        return view('alumnos/edit', [
+            'alumno' => $this->alumnoModel->find($id),
+            'carreras' => $carreraModel->orderBy('nombre_carrera', 'ASC')->findAll(),
+        ]);
     }
 
     public function edit($id)
@@ -61,9 +75,14 @@ class Alumnos extends BaseController
         $data['alumno'] = $this->alumnoModel->find($id);
         $post = $this->request->getPost();
         $codigo = isset($post['codigo']) ? trim($post['codigo']) : null;
+        $codigoCarrera = isset($post['codigo_carrera']) ? trim((string) $post['codigo_carrera']) : null;
 
         if (empty($codigo)) {
             return redirect()->back()->withInput()->with('error', 'El código es obligatorio.');
+        }
+
+        if (empty($codigoCarrera) || ! ctype_digit((string) $codigoCarrera) || (int) $codigoCarrera <= 0) {
+            return redirect()->back()->withInput()->with('error', 'Debes seleccionar una carrera válida.');
         }
 
         $existing = $this->alumnoModel->where('codigo', $codigo)->first();

@@ -15,27 +15,66 @@
 
 <body>
     <header>
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <nav class="navbar navbar-expand-lg bg-body-tertiary border-bottom">
             <div class="container">
-                <a class="navbar-brand" href="#">CRUD - CodeIgniter</a>
+                <a class="navbar-brand fw-semibold" href="<?= base_url('/') ?>">CRUD - CodeIgniter</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <?php
-                        $currentUri = uri_string();
-                        $isAlumnosList = ($currentUri === 'alumnos' || $currentUri === 'public/alumnos' || rtrim($currentUri, '/') === 'alumnos');
-                        $isAlumnosCarrera = ($currentUri === 'alumnos_carrera' || $currentUri === 'public/alumnos_carrera' || rtrim($currentUri, '/') === 'alumnos_carrera');
+                        $currentUri = trim(uri_string(), '/');
+                        $currentUri = preg_replace('#^public/#', '', $currentUri);
+
+                        $isAlumnosList = ($currentUri === 'alumnos' || $currentUri === '');
+                        $isAlumnosCreate = ($currentUri === 'alumnos/create');
+                        $isAlumnosCarrera = ($currentUri === 'alumnos_carrera');
+                        $isAlumnosMateria = ($currentUri === 'alumnos_materia');
+
+                        $isCarreras = ($currentUri === 'carreras');
+                        $isMaterias = ($currentUri === 'materias');
+                        $isDocentes = ($currentUri === 'docentes');
+
+                        $isHorarios = ($currentUri === 'horarios' || $currentUri === 'horarios/asignar');
+                        $isInscripciones = ($currentUri === 'inscripciones');
+
+                        $isAlumnosMenu = ($isAlumnosList || $isAlumnosCreate || $isAlumnosCarrera || $isAlumnosMateria);
+                        $isCatalogosMenu = ($isCarreras || $isMaterias || $isDocentes);
+                        $isHorariosMenu = ($isHorarios || $isInscripciones);
                         ?>
-                        <li class="nav-item">
-                            <a class="nav-link <?= $isAlumnosList ? 'active' : '' ?>" href="<?= base_url('alumnos') ?>">Listado de alumnos</a>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle <?= $isAlumnosMenu ? 'active' : '' ?>" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Alumnos
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item <?= $isAlumnosList ? 'active' : '' ?>" href="<?= base_url('alumnos') ?>">Listado</a></li>
+                                <li><a class="dropdown-item <?= $isAlumnosCreate ? 'active' : '' ?>" href="<?= base_url('alumnos/create') ?>">Crear</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item <?= $isAlumnosCarrera ? 'active' : '' ?>" href="<?= base_url('alumnos_carrera') ?>">Por carrera</a></li>
+                                <li><a class="dropdown-item <?= $isAlumnosMateria ? 'active' : '' ?>" href="<?= base_url('alumnos_materia') ?>">Por materia</a></li>
+                            </ul>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link <?= $isAlumnosCarrera ? 'active' : '' ?>" href="<?= base_url('alumnos_carrera') ?>">Alumnos por carrera</a>
+
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle <?= $isCatalogosMenu ? 'active' : '' ?>" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Catálogos
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item <?= $isCarreras ? 'active' : '' ?>" href="<?= base_url('carreras') ?>">Carreras</a></li>
+                                <li><a class="dropdown-item <?= $isMaterias ? 'active' : '' ?>" href="<?= base_url('materias') ?>">Materias</a></li>
+                                <li><a class="dropdown-item <?= $isDocentes ? 'active' : '' ?>" href="<?= base_url('docentes') ?>">Docentes</a></li>
+                            </ul>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link <?= ($currentUri === 'alumnos/create' || $currentUri === 'public/alumnos/create') ? 'active' : '' ?>" href="<?= base_url('alumnos/create') ?>">Crear alumno</a>
+
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle <?= $isHorariosMenu ? 'active' : '' ?>" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Horarios
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item <?= $isHorarios ? 'active' : '' ?>" href="<?= base_url('horarios') ?>">Materias por docente</a></li>
+                                <li><a class="dropdown-item <?= $isInscripciones ? 'active' : '' ?>" href="<?= base_url('inscripciones') ?>">Inscripciones</a></li>
+                            </ul>
                         </li>
                     </ul>
                 </div>
