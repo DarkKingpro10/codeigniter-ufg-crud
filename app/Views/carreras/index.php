@@ -60,8 +60,8 @@
             }
         })
 
-        const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
-        ;[...popoverTriggerList].map(el => new bootstrap.Popover(el))
+        const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]');
+        [...popoverTriggerList].map(el => new bootstrap.Popover(el))
     });
 </script>
 <?= $this->endSection() ?>

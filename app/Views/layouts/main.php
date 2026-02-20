@@ -50,7 +50,9 @@
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item <?= $isAlumnosList ? 'active' : '' ?>" href="<?= base_url('alumnos') ?>">Listado</a></li>
                                 <li><a class="dropdown-item <?= $isAlumnosCreate ? 'active' : '' ?>" href="<?= base_url('alumnos/create') ?>">Crear</a></li>
-                                <li><hr class="dropdown-divider"></li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
                                 <li><a class="dropdown-item <?= $isAlumnosCarrera ? 'active' : '' ?>" href="<?= base_url('alumnos_carrera') ?>">Por carrera</a></li>
                                 <li><a class="dropdown-item <?= $isAlumnosMateria ? 'active' : '' ?>" href="<?= base_url('alumnos_materia') ?>">Por materia</a></li>
                             </ul>

@@ -73,8 +73,8 @@
             }
         })
 
-        const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
-        ;[...popoverTriggerList].map(el => new bootstrap.Popover(el))
+        const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]');
+        [...popoverTriggerList].map(el => new bootstrap.Popover(el))
     });
 
     function eliminarInscripcion(id) {
@@ -83,14 +83,14 @@
         }
 
         fetch(`<?= base_url('inscripciones/delete') ?>/${id}`, {
-            method: 'DELETE',
-            headers: {
-                'X-Requested-With': 'XMLHttpRequest'
-            }
-        })
-        .then(r => r.json())
-        .then(() => location.reload())
-        .catch(() => location.reload());
+                method: 'DELETE',
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            })
+            .then(r => r.json())
+            .then(() => location.reload())
+            .catch(() => location.reload());
     }
 </script>
 <?= $this->endSection() ?>

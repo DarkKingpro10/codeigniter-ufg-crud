@@ -33,7 +33,7 @@
                 </thead>
                 <tbody>
                     <?php
-                    $diasOpciones = ['Lunes','Martes','Miércoles','Jueves','Viernes','Sábado','Domingo'];
+                    $diasOpciones = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'];
                     ?>
                     <?php for ($i = 0; $i < (int) $maxMaterias; $i++): ?>
                         <tr>
