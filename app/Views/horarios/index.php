@@ -8,7 +8,18 @@
 <?= $this->section('content') ?>
 <div class="d-flex justify-content-between align-items-center mb-3">
     <h1 class="h3">Horarios (Materias por docente)</h1>
-    <a href="<?= base_url('horarios/asignar') ?>" class="btn btn-primary">Asignar materias</a>
+    <div class="d-flex align-items-center">
+        <form method="get" class="d-flex align-items-center me-3">
+            <select name="id_docente" class="form-select form-select-sm me-2" onchange="this.form.submit()">
+                <option value="0" <?= empty($selectedDocente) ? 'selected' : '' ?>>Todos</option>
+                <?php foreach ($docentes as $doc): ?>
+                    <option value="<?= esc($doc['id_docente']) ?>" <?= (isset($selectedDocente) && $selectedDocente == $doc['id_docente']) ? 'selected' : '' ?>><?= esc($doc['nombre_docente']) ?></option>
+                <?php endforeach; ?>
+            </select>
+            <noscript><button type="submit" class="btn btn-sm btn-outline-secondary">Filtrar</button></noscript>
+        </form>
+        <a href="<?= base_url('horarios/asignar') ?>" class="btn btn-primary">Asignar materias</a>
+    </div>
 </div>
 
 <?php if (session()->getFlashdata('success')): ?>

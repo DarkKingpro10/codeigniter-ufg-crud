@@ -17,8 +17,14 @@ class Horarios extends BaseController
     {
         $horarioModel = new HorarioModel();
 
+        $idDocente = (int) $this->request->getGet('id_docente');
+
+        $docenteModel = new DocenteModel();
+
         return view('horarios/index', [
-            'horarios' => $horarioModel->listarConDetalles(),
+            'horarios' => $horarioModel->listarConDetalles($idDocente > 0 ? $idDocente : null),
+            'docentes' => $docenteModel->orderBy('nombre_docente', 'ASC')->findAll(),
+            'selectedDocente' => $idDocente,
         ]);
     }
 

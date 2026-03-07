@@ -45,12 +45,22 @@ class HorarioModel extends Model
     /**
      * @return array<int, array<string, mixed>>
      */
-    public function listarConDetalles(): array
+    /**
+     * @param int|null $idDocente Filtrar por id de docente o null para todos
+     * @return array<int, array<string, mixed>>
+     */
+    public function listarConDetalles(?int $idDocente = null): array
     {
-        return $this->db->table($this->table . ' h')
+        $builder = $this->db->table($this->table . ' h')
             ->select('h.id, h.id_docente, d.nombre_docente, h.id_materia, m.nombre_materia, h.dia, h.hora_inicio, h.hora_fin')
             ->join('docentes d', 'd.id_docente = h.id_docente')
-            ->join('materias m', 'm.id_materia = h.id_materia')
+            ->join('materias m', 'm.id_materia = h.id_materia');
+
+        if ($idDocente !== null && $idDocente > 0) {
+            $builder->where('h.id_docente', $idDocente);
+        }
+
+        return $builder
             ->orderBy('d.nombre_docente', 'ASC')
             ->orderBy('m.nombre_materia', 'ASC')
             ->orderBy('h.dia', 'ASC')
