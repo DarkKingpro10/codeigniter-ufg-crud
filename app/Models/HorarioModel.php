@@ -43,6 +43,30 @@ class HorarioModel extends Model
     }
 
     /**
+     * Comprueba si existe un horario idéntico para un docente, opcionalmente excluyendo un id
+     */
+    public function existeHorarioExcepto(
+        int $idDocente,
+        int $idMateria,
+        string $dia,
+        string $horaInicio,
+        string $horaFin,
+        ?int $excludeId = null
+    ): bool {
+        $builder = $this->where('id_docente', $idDocente)
+            ->where('id_materia', $idMateria)
+            ->where('dia', $dia)
+            ->where('hora_inicio', $horaInicio)
+            ->where('hora_fin', $horaFin);
+
+        if ($excludeId !== null && $excludeId > 0) {
+            $builder->where('id <>', $excludeId);
+        }
+
+        return (bool) $builder->first();
+    }
+
+    /**
      * @return array<int, array<string, mixed>>
      */
     /**
