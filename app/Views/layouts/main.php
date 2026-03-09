@@ -38,6 +38,7 @@
 
                         $isHorarios = ($currentUri === 'horarios' || $currentUri === 'horarios/asignar');
                         $isInscripciones = ($currentUri === 'inscripciones');
+                        $isNotas = (strpos($currentUri, 'notas') === 0);
 
                         $isAlumnosMenu = ($isAlumnosList || $isAlumnosCreate || $isAlumnosCarrera || $isAlumnosMateria);
                         $isCatalogosMenu = ($isCarreras || $isMaterias || $isDocentes);
@@ -76,6 +77,7 @@
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item <?= $isHorarios ? 'active' : '' ?>" href="<?= base_url('horarios') ?>">Materias por docente</a></li>
                                 <li><a class="dropdown-item <?= $isInscripciones ? 'active' : '' ?>" href="<?= base_url('inscripciones') ?>">Inscripciones</a></li>
+                                <li><a class="dropdown-item <?= $isNotas ? 'active' : '' ?>" href="<?= base_url('notas') ?>">Notas</a></li>
                             </ul>
                         </li>
                     </ul>

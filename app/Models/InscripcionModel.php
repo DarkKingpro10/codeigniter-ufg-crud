@@ -16,6 +16,7 @@ class InscripcionModel extends Model
     protected $allowedFields = [
         'horario_id',
         'alumno_id',
+        'ciclo_id',
     ];
 
     public function existeInscripcion(int $alumnoId, int $horarioId, ?int $excluirId = null): bool
@@ -52,16 +53,88 @@ class InscripcionModel extends Model
     /**
      * @return array<int, array<string, mixed>>
      */
-    public function obtenerAlumnosPorMateria(int $idMateria): array
+    public function obtenerAlumnosPorMateria(int $idMateria, ?int $cicloId = null): array
     {
-        return $this->db->table($this->table . ' i')
+        $builder = $this->db->table($this->table . ' i')
             ->select('a.id, a.codigo, a.nombre, a.apellido, a.telefono')
             ->join('alumnos a', 'a.id = i.alumno_id')
             ->join('horarios h', 'h.id = i.horario_id')
-            ->where('h.id_materia', $idMateria)
-            ->groupBy('a.id')
+            ->where('h.id_materia', $idMateria);
+
+        if ($cicloId !== null) {
+            $builder->where('i.ciclo_id', $cicloId);
+        }
+
+        return $builder->groupBy('a.id')
             ->orderBy('a.apellido', 'ASC')
             ->get()
             ->getResultArray();
+    }
+
+    /**
+     * Devuelve el id_materia dado un horario
+     */
+    public function obtenerMateriaPorHorario(int $horarioId): ?int
+    {
+        $row = $this->db->table('horarios')
+            ->select('id_materia')
+            ->where('id', $horarioId)
+            ->get()
+            ->getRowArray();
+
+        return $row ? (int) $row['id_materia'] : null;
+    }
+
+    /**
+     * Cuenta las materias distintas de un alumno dentro de un ciclo (opcional).
+     * Excluir una inscripcion por su id si se necesita (para editar).
+     */
+    public function contarMateriasDistintasPorAlumno(int $alumnoId, ?int $cicloId = null, ?int $excluirInscripcionId = null): int
+    {
+        $sql = "SELECT COUNT(DISTINCT h.id_materia) AS cnt
+            FROM {$this->table} i
+            JOIN horarios h ON h.id = i.horario_id
+            WHERE i.alumno_id = ?";
+
+        $params = [$alumnoId];
+
+        if ($cicloId !== null) {
+            $sql .= " AND i.ciclo_id = ?";
+            $params[] = $cicloId;
+        }
+
+        if ($excluirInscripcionId !== null) {
+            $sql .= " AND i.{$this->primaryKey} != ?";
+            $params[] = $excluirInscripcionId;
+        }
+
+        $row = $this->db->query($sql, $params)->getRow();
+        return $row ? (int) $row->cnt : 0;
+    }
+
+    /**
+     * Comprueba si un alumno ya tiene una materia (en el mismo ciclo opcionalmente).
+     */
+    public function alumnoTieneMateria(int $alumnoId, int $idMateria, ?int $cicloId = null, ?int $excluirInscripcionId = null): bool
+    {
+        $sql = "SELECT 1
+            FROM {$this->table} i
+            JOIN horarios h ON h.id = i.horario_id
+            WHERE i.alumno_id = ? AND h.id_materia = ?";
+
+        $params = [$alumnoId, $idMateria];
+
+        if ($cicloId !== null) {
+            $sql .= " AND i.ciclo_id = ?";
+            $params[] = $cicloId;
+        }
+
+        if ($excluirInscripcionId !== null) {
+            $sql .= " AND i.{$this->primaryKey} != ?";
+            $params[] = $excluirInscripcionId;
+        }
+
+        $row = $this->db->query($sql, $params)->getRow();
+        return $row ? true : false;
     }
 }

@@ -31,6 +31,21 @@
         </select>
     </div>
 
+    <div class="col-md-6">
+        <label class="form-label">Ciclo</label>
+        <?php $selectedCiclo = old('ciclo_id'); ?>
+        <select name="ciclo_id" class="form-select">
+            <option value="">(Seleccione ciclo)</option>
+            <?php if (! empty($ciclos)): ?>
+                <?php foreach ($ciclos as $c): ?>
+                    <option value="<?= esc($c['id_ciclo']) ?>" <?= (string) $selectedCiclo === (string) $c['id_ciclo'] ? 'selected' : '' ?>>
+                        <?= esc($c['nombre'] . (isset($c['activo']) && $c['activo'] ? ' (activo)' : '')) ?>
+                    </option>
+                <?php endforeach; ?>
+            <?php endif; ?>
+        </select>
+    </div>
+
     <div class="col-12 mt-3">
         <button type="submit" class="btn btn-success">Guardar</button>
         <a href="<?= base_url('inscripciones') ?>" class="btn btn-secondary ms-2">Cancelar</a>

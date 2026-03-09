@@ -54,3 +54,8 @@ $routes->delete('inscripciones/delete/(:num)', 'Inscripciones::delete/$1');
 // Reporte: alumnos por materia
 $routes->get('alumnos_materia', 'AlumnosMateria::index');
 $routes->post('alumnos_materia/filtrar', 'AlumnosMateria::filtrar');
+
+// Notas (materia + ciclo + periodo)
+$routes->get('notas', 'Notas::index');
+$routes->get('notas/edit/(:num)/(:num)/(:any)', 'Notas::edit/$1/$2/$3');
+$routes->post('notas/save', 'Notas::save');
