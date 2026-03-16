@@ -9,19 +9,37 @@
 
 <form action="<?= base_url('inscripciones/edit/' . $inscripcion['id_inscripcion']) ?>" method="post" class="row g-3">
     <div class="col-md-6">
-        <label class="form-label">Alumno</label>
-        <select name="alumno_id" class="form-select" required>
-            <option value="">Seleccione un alumno</option>
-            <?php
-            $selectedAlumno = old('alumno_id') ?? $inscripcion['alumno_id'];
-            ?>
-            <?php foreach ($alumnos as $a): ?>
-                <option value="<?= esc($a['id']) ?>" <?= (string) $selectedAlumno === (string) $a['id'] ? 'selected' : '' ?>>
-                    <?= esc($a['codigo'] . ' - ' . $a['apellido'] . ' ' . $a['nombre']) ?>
-                </option>
-            <?php endforeach; ?>
-        </select>
+        <div class="mb-3">
+            <label class="form-label">Alumno</label>
+            <select name="alumno_id" class="form-select" required>
+                <option value="">Seleccione un alumno</option>
+                <?php
+                $selectedAlumno = old('alumno_id') ?? $inscripcion['alumno_id'];
+                ?>
+                <?php foreach ($alumnos as $a): ?>
+                    <option value="<?= esc($a['id']) ?>" <?= (string) $selectedAlumno === (string) $a['id'] ? 'selected' : '' ?>>
+                        <?= esc($a['codigo'] . ' - ' . $a['apellido'] . ' ' . $a['nombre']) ?>
+                    </option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Ciclo</label>
+            <?php $selectedCiclo = old('ciclo_id') ?? ($inscripcion['ciclo_id'] ?? ''); ?>
+            <select name="ciclo_id" class="form-select">
+                <option value="">(Seleccione ciclo)</option>
+                <?php if (! empty($ciclos)): ?>
+                    <?php foreach ($ciclos as $c): ?>
+                        <option value="<?= esc($c['id_ciclo']) ?>" <?= (string) $selectedCiclo === (string) $c['id_ciclo'] ? 'selected' : '' ?>>
+                            <?= esc($c['nombre'] . (isset($c['activo']) && $c['activo'] ? ' (activo)' : '')) ?>
+                        </option>
+                    <?php endforeach; ?>
+                <?php endif; ?>
+            </select>
+        </div>
     </div>
+
     <div class="col-md-6">
         <label class="form-label">Horario</label>
         <select name="horario_id" class="form-select" required>
@@ -34,21 +52,6 @@
                     <?= esc($h['nombre_docente'] . ' | ' . $h['nombre_materia'] . ' | ' . $h['dia'] . ' ' . $h['hora_inicio'] . '-' . $h['hora_fin']) ?>
                 </option>
             <?php endforeach; ?>
-        </select>
-    </div>
-
-    <div class="col-md-6">
-        <label class="form-label">Ciclo</label>
-        <?php $selectedCiclo = old('ciclo_id') ?? ($inscripcion['ciclo_id'] ?? ''); ?>
-        <select name="ciclo_id" class="form-select">
-            <option value="">(Seleccione ciclo)</option>
-            <?php if (! empty($ciclos)): ?>
-                <?php foreach ($ciclos as $c): ?>
-                    <option value="<?= esc($c['id_ciclo']) ?>" <?= (string) $selectedCiclo === (string) $c['id_ciclo'] ? 'selected' : '' ?>>
-                        <?= esc($c['nombre'] . (isset($c['activo']) && $c['activo'] ? ' (activo)' : '')) ?>
-                    </option>
-                <?php endforeach; ?>
-            <?php endif; ?>
         </select>
     </div>
 

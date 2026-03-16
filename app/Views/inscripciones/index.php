@@ -36,7 +36,9 @@
             <?php foreach ($inscripciones as $i): ?>
                 <tr>
                     <td><?= esc($i['id_inscripcion']) ?></td>
-                    <td><?= esc($i['codigo'] . ' - ' . $i['apellido'] . ' ' . $i['nombre']) ?></td>
+                    <td>
+                        <a href="<?= base_url('inscripciones/alumno/' . $i['alumno_id']) ?>"><?= esc($i['codigo'] . ' - ' . $i['apellido'] . ' ' . $i['nombre']) ?></a>
+                    </td>
                     <td><?= esc($i['nombre_materia']) ?></td>
                     <td><?= esc($i['nombre_docente']) ?></td>
                     <td><?= esc($i['dia']) ?></td>

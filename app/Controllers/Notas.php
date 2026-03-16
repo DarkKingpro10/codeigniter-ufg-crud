@@ -28,19 +28,37 @@ class Notas extends BaseController
             'ParcialFinal',
         ];
 
-        // Si vienen parámetros por GET, redirigir a la ruta de edición
+        // Si vienen parámetros por GET, preparar datos para renderizar en la misma página
         $gMateria = $this->request->getGet('materia_id');
         $gCiclo = $this->request->getGet('ciclo_id');
         $gPeriodo = $this->request->getGet('periodo');
-        if ($gMateria && $gCiclo && $gPeriodo) {
-            return redirect()->to(base_url('notas/edit/' . (int)$gMateria . '/' . (int)$gCiclo . '/' . rawurlencode($gPeriodo)));
-        }
 
-        return view('notas/index', [
+        $data = [
             'materias' => $materiaModel->orderBy('nombre_materia', 'ASC')->findAll(),
             'ciclos' => $ciclos,
             'periodos' => $periodos,
-        ]);
+        ];
+
+        if ($gMateria && $gCiclo && $gPeriodo) {
+            $inscripcionModel = new InscripcionModel();
+            $notaModel = new NotaModel();
+
+            $alumnos = $inscripcionModel->obtenerAlumnosPorMateria((int)$gMateria, (int)$gCiclo);
+            $notas = $notaModel->getByMateriaCicloPeriodo((int)$gMateria, (int)$gCiclo, (string)$gPeriodo);
+
+            $mapNotas = [];
+            foreach ($notas as $n) {
+                $mapNotas[$n['alumno_id']] = $n;
+            }
+
+            $data['selectedMateria'] = (int)$gMateria;
+            $data['selectedCiclo'] = (int)$gCiclo;
+            $data['selectedPeriodo'] = (string)$gPeriodo;
+            $data['alumnos'] = $alumnos;
+            $data['notasMap'] = $mapNotas;
+        }
+
+        return view('notas/index', $data);
     }
 
     public function edit(int $materiaId, int $cicloId, string $periodo): string

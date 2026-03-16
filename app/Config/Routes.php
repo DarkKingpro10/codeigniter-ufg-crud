@@ -51,6 +51,13 @@ $routes->get('inscripciones/edit/(:num)', 'Inscripciones::renderEdit/$1');
 $routes->post('inscripciones/edit/(:num)', 'Inscripciones::edit/$1');
 $routes->delete('inscripciones/delete/(:num)', 'Inscripciones::delete/$1');
 
+// Gestión por alumno: ver y actualizar inscripciones de un alumno
+$routes->get('inscripciones/alumno/(:num)', 'Inscripciones::renderAlumno/$1');
+$routes->post('inscripciones/alumno/(:num)', 'Inscripciones::updateAlumno/$1');
+
+// API: obtener horarios inscriptos de un alumno (JSON)
+$routes->get('inscripciones/api/alumno/(:num)', 'Inscripciones::apiAlumno/$1');
+
 // Reporte: alumnos por materia
 $routes->get('alumnos_materia', 'AlumnosMateria::index');
 $routes->post('alumnos_materia/filtrar', 'AlumnosMateria::filtrar');

@@ -67,6 +67,7 @@
                                 <li><a class="dropdown-item <?= $isCarreras ? 'active' : '' ?>" href="<?= base_url('carreras') ?>">Carreras</a></li>
                                 <li><a class="dropdown-item <?= $isMaterias ? 'active' : '' ?>" href="<?= base_url('materias') ?>">Materias</a></li>
                                 <li><a class="dropdown-item <?= $isDocentes ? 'active' : '' ?>" href="<?= base_url('docentes') ?>">Docentes</a></li>
+                                <li><a class="dropdown-item <?= $isNotas ? 'active' : '' ?>" href="<?= base_url('notas') ?>">Notas</a></li>
                             </ul>
                         </li>
 
@@ -77,7 +78,6 @@
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item <?= $isHorarios ? 'active' : '' ?>" href="<?= base_url('horarios') ?>">Materias por docente</a></li>
                                 <li><a class="dropdown-item <?= $isInscripciones ? 'active' : '' ?>" href="<?= base_url('inscripciones') ?>">Inscripciones</a></li>
-                                <li><a class="dropdown-item <?= $isNotas ? 'active' : '' ?>" href="<?= base_url('notas') ?>">Notas</a></li>
                             </ul>
                         </li>
                     </ul>
